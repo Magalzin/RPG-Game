@@ -1,33 +1,57 @@
 package com.example.rpg.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.example.rpg.enums.Classes;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 
 @Entity
 public class CharacterModel {
 
     @Id()
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(example = "1")
     private Long id;
+    @Schema(example = "Magal")
     private String name;
+    @Schema(example = "Joaquim o devorador de mundos")
     private String adventurer_name;
+    @Schema(example = "WARRIOR")
     private Classes adventurer_class;
+    @Schema(example = "3")
     private int level;
-    private String magicItems;
+    @Schema(example = "10")
     private int strength;
+    @Schema(example = "0")
     private int defense;
+
+    @ManyToMany
+    @JoinTable(
+        name="character_items",
+        joinColumns=@JoinColumn(name= "id_character"),
+        inverseJoinColumns= @JoinColumn(name= "id_item")
+
+    )
+    @Schema(example="")
+    private List<ItemModel> magicItems = new ArrayList<>();
+
+    public CharacterModel(){}
     
-    public CharacterModel(String name, String adventurer_name, Classes adventurer_class, int level, String magicItems,
+    public CharacterModel(String name, String adventurer_name, Classes adventurer_class, int level,
             int strength, int defense) {
         this.name = name;
         this.adventurer_name = adventurer_name;
         this.adventurer_class = adventurer_class;
         this.level = level;
-        this.magicItems = magicItems;
         this.strength = strength;
         this.defense = defense;
     }
@@ -56,12 +80,8 @@ public class CharacterModel {
         this.level = level;
     }
 
-    public String getMagicItems() {
+    public List<ItemModel> getMagicItems() {
         return magicItems;
-    }
-
-    public void setMagicItems(String magicItems) {
-        this.magicItems = magicItems;
     }
 
     public int getDefense() {
@@ -87,6 +107,30 @@ public class CharacterModel {
     public void setAdventurer_class(Classes adventurer_class) {
         this.adventurer_class = adventurer_class;
     }
-    
 
+    public void setMagicItems(List<ItemModel> magicItems) {
+        this.magicItems = magicItems;
+    }
+
+    public void addMagicItem(ItemModel item){
+        this.magicItems.add(item);
+    }
+
+    public Long getId() {
+        return id;
+    }
+    
+    @Override
+    public String toString() {
+        return "Character{" +
+                "id=" + this.id +
+                ", name='" + this.name + '\'' +
+                ", adventurerName='" + this.adventurer_name + '\'' +
+                ", characterClass=" + this.adventurer_class +
+                ", level=" + this.level +
+                ", strength=" + this.strength +
+                ", defense=" + this.defense +
+                ", magicItems=" + this.magicItems +
+                '}';
+    }  
 }
