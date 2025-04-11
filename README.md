@@ -1,4 +1,4 @@
-# 🧙‍♂️ RPG - Gerenciador de Itens Mágicos
+# 🧙‍♂️ RPG - Sistema de personagens e itens magicos
 
 Este é um projeto de RPG construído com Spring Boot, que permite a criação e a vinculação de **itens mágicos** a **personagens aventureiros**.
 
